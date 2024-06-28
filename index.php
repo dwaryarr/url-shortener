@@ -12,6 +12,9 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
+    $views = $row['views'] + 1;
+    $updateViews = mysqli_prepare($conn, "UPDATE shorturl SET views = $views WHERE shorturl_id = " . $row['shorturl_id']);
+    $updateViews->execute();
     $longurl = $row['longurl'];
     header("Location: " . $longurl);
     exit();
